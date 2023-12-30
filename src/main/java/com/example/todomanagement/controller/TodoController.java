@@ -38,4 +38,11 @@ public class TodoController {
         // return new ResponseEntity<>(todos, HttpStatus.OK);
         return ResponseEntity.ok(todos);
     }
+
+    //Build Update Todo REST API
+    @PutMapping("{id}")
+    public ResponseEntity<TodoDto> updateTodo(@RequestBody TodoDto todoDto, @PathVariable("id") Long todoId){
+        TodoDto updatedTodo = todoService.updateTodo(todoDto, todoId);
+        return ResponseEntity.ok(updatedTodo);
+    }
 }
