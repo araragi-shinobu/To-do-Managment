@@ -45,7 +45,7 @@ public class TodoController {
     }
 
     //Build Update Todo REST API
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<TodoDto> updateTodo(@RequestBody TodoDto todoDto, @PathVariable("id") Long todoId){
         TodoDto updatedTodo = todoService.updateTodo(todoDto, todoId);
