@@ -1,5 +1,6 @@
 package com.example.todomanagement.controller;
 
+import com.example.todomanagement.dto.JwtAuthResponse;
 import com.example.todomanagement.dto.LoginDto;
 import com.example.todomanagement.dto.RegisterDto;
 import com.example.todomanagement.service.AuthService;
@@ -24,8 +25,12 @@ public class AuthController {
 
     // Build Login REST API
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-        String response = authService.login(loginDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
+        String token = authService.login(loginDto);
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
 }

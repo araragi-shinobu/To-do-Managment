@@ -7,6 +7,7 @@ import com.example.todomanagement.entity.User;
 import com.example.todomanagement.exception.TodoAPIException;
 import com.example.todomanagement.repository.RoleRepository;
 import com.example.todomanagement.repository.UserRepository;
+import com.example.todomanagement.security.JwtTokenProvider;
 import com.example.todomanagement.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,8 @@ public class AuthServiceImpl implements AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private JwtTokenProvider jwtTokenProvider;
+
     @Override
     public String register(RegisterDto registerDto) {
         // check if username is already in database
@@ -65,6 +68,8 @@ public class AuthServiceImpl implements AuthService {
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "User logged in successfully!";
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return token;
     }
 }
